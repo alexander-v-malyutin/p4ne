@@ -20,7 +20,7 @@ class IPv4RandomNetwork(ipaddress.IPv4Network):
 
     def key_value(self):
         pref_shift = self.prefixlen << 32
-        return pref_shift + int(ipaddress.IPv4Address(str(self.network_address)))
+        return pref_shift + int(self.network_address)
 
 
 L = []

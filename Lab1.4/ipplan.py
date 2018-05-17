@@ -11,8 +11,7 @@ class IPv4RandomNetwork(ipaddress.IPv4Network):
     def __init__(self):
         int_addr = random.randint(start_addr, end_addr)
         int_pref = random.randint(start_pref, end_pref)
-        str_net = str(ipaddress.IPv4Address(int_addr)) + '/' + str(int_pref)
-        ipaddress.IPv4Network.__init__(self, str_net, strict=False)
+        ipaddress.IPv4Network.__init__(self, (int_addr, str(int_pref)), strict=False)
         self.key = IPv4RandomNetwork.key_value(self)
 
     def regular(self):

@@ -1,7 +1,7 @@
 import glob
 
 list_addr = []
-for file in glob.glob('*.txt'):
+for file in glob.glob('../configs/*.txt'):
     with open(file) as openfile:
         for line in openfile:
             if (line.lstrip().find('ip address') == 0 and not 'dhcp' in line):

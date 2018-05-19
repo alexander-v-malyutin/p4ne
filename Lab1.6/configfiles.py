@@ -16,7 +16,7 @@ def classifier(line):
     if hostname_search:
         return {'host': hostname_search.group(1)}
 
-    return {'key': None}
+    return {}
 
 #print(classifier(' ip address 192.168.1.1 255.255.255.0'))
 #print(classifier('interface Fa1/0'))
@@ -31,9 +31,7 @@ for file in glob.glob('../configs/*.txt'):
     with open(file) as openfile:
         for line in openfile:
             class_dict = classifier(line)
-            if 'key' in class_dict:
-                continue
-            elif 'ip' in class_dict:
+            if 'ip' in class_dict:
                 if class_dict not in list_addr:
                     list_addr.append(class_dict)
             elif 'int' in class_dict:
@@ -42,8 +40,7 @@ for file in glob.glob('../configs/*.txt'):
             elif 'host' in class_dict:
                 if class_dict not in list_host:
                     list_host.append(class_dict)
-            else:
-                print('BAD!')
+
 
 print('Hostnames:')
 for line in list_host:

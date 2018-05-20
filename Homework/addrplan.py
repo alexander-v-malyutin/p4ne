@@ -20,12 +20,15 @@
         ...
     ]
 3. Составление списка сетей (net_list) с сортировкой по маске/сети
-4. Вывод на экран списка сетей/масок в 2 столбца
+4. Запись в файл 'AddrPlan.xlsx' в 2 стобца в worksheeet 'AddrPlan'
+5. Вывод на экран списка сетей/масок в 2 столбца
 '''
 
 import glob, ipaddress, re, pprint
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
 
+
+addr_plan_file = 'AddrPlan.xlsx'
 
 def classifier(line):
     ip_search = re.search(r'ip address ((?:\d{1,3}\.){3}\d{1,3}) ((?:\d{1,3}\.){3}\d{1,3})', line)
@@ -77,6 +80,29 @@ for file in glob.glob('../configs/*.txt'):
     struct_func(file)
 
 net_list.sort(key=sortfunc)
+
+
+def write_addrplan_to_file(file):
+    if glob.glob(file):
+        wb = load_workbook(file)
+        try:
+            wb.remove(wb['AddrPlan'])
+        except ValueError as e:
+            print(e)
+    else:
+        wb = Workbook()
+
+    ws = wb.create_sheet('AddrPlan')
+    ws['A1'] = 'Сеть'
+    ws['B1'] = 'Маска'
+
+    for net in net_list:
+        ws.append({'A': str(net.network_address), 'B': str(net.netmask)})
+
+    wb.save(file)
+    wb.close()
+
+write_addrplan_to_file(addr_plan_file)
 
 print('{:16s}{:16s}'.format('Сеть', 'Маска'))
 for net in net_list:

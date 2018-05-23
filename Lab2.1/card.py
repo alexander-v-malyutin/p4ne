@@ -2,6 +2,7 @@ import requests
 import json
 import sys
 import re
+import pprint
 
 file = sys.argv[1]
 
@@ -14,6 +15,7 @@ def card_request(card_number):
     r = requests.get(URL + card_number, headers={'Accept-Version':"3"})
     if 200 <= r.status_code <= 299:
         card_dict = r.json()
+        pprint.pprint(card_dict)
         if card_dict['bank']:
             bank_set.add(card_dict['bank']['name'])
 

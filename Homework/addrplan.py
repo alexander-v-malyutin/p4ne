@@ -5,15 +5,17 @@
         {
             'hostname': '...',
             'interfaces':
-            {
-                'ifname': '...',
-                'ifaddr': ipaddress.IPv4Interface()
-            },
-            {
-                'ifname': '...',
-                'ifaddr': None
-            },
-            ...
+            [
+                {
+                    'ifname': '...',
+                    'ifaddr': ipaddress.IPv4Interface()
+                },
+                {
+                    'ifname': '...',
+                    'ifaddr': None
+                },
+                ...
+            ]
         },
         {
         },
@@ -161,14 +163,15 @@ def print_addrplan_to_screen():
         print('{:16s}{:16s}'.format(str(net.network_address), str(net.netmask)))
 
 
-structure = []
-net_list = []
+if __name__ == '__main__':
+    structure = []
+    net_list = []
 
-for file in glob.glob('../configs/*.txt'):
-    struct_func(file)
+    for file in glob.glob('../configs/*.txt'):
+        struct_func(file)
 
-net_list.sort(key=sortfunc)
+    net_list.sort(key=sortfunc)
 
-write_addrplan_to_file(addr_plan_file)
-write_devinfo_to_file(addr_plan_file)
-print_addrplan_to_screen()
+    write_addrplan_to_file(addr_plan_file)
+    write_devinfo_to_file(addr_plan_file)
+    print_addrplan_to_screen()
